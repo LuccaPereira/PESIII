@@ -1,0 +1,47 @@
+{
+  "name": "pesiii",
+  "version": "1.0.0",
+  "description": "Aula CI\\CD para Processo de Engenharia de Software III",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --ci --reportes=default --reporters=jest-junit",
+    "start": "node index.js",
+    "test1": "node tests/button-render.js",
+    "e2e-test": "start-server-and-test http://localhost:3000/ht test1"
+
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/glitch-mvp-node"
+  },
+  "keywords": [
+    "node",
+    "glitch"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sergiolmm-pucc/PESIII/issues"
+  },
+  "homepage": "https://github.com/sergiolmm-pucc/PESIII#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jest": "^29.5.0",
+    "jest-junit": "^16.0.0"
+  },
+  "jest-junit": {
+    "outputDirectory": "reports",
+    "outputName": "jest-junit.xml",
+    "ancestorSeparator": ">",
+    "uniqueOutputName": "false",
+    "suiteNameTemplate": "{filepath}",
+    "classNameTemplate": "{classname}",
+    "titleTemplate": "{title}"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "devDependencies": {
+    "selenium-webdriver": "^4.9.2",
+    "start-server-and-test": "^2.0.0"
+  }
+}

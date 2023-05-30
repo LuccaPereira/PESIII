@@ -1,0 +1,29 @@
+body{
+  background-color: #333333 ;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh;
+
+}
+.info{
+  color: white;
+  margin-left: 10px;
+}
+#calculo { 
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 430px;
+  padding-bottom: 5px;
+  margin: 10px
+}
+#calculo:focus{
+    outline: none;
+    border-color: #4CAF50;
+}
+
+#calculo::placeholder{
+    text-align: center;
+}

@@ -1,0 +1,103 @@
+
+name: Exemplo da aula de PEDIII - by Slmm
+
+on: [push]
+#defaults:
+#  run:
+#    shell: bash
+      
+jobs:
+  Descobrindo-o-github-actions-workflow:
+    runs-on: ubuntu-latest
+    steps:
+     - run: echo "${{ github.event_name}} evento disparado para esse job "
+     - run: echo " O sistemas ${{ runner.os }} esta rodadndo"
+     - run: timedatectl
+     - run: ls -la       
+
+     - name: Checkout git repository 
+       uses: actions/checkout@v3   
+     - run: |
+        ls -la ${{ github.workspace }}
+    
+     - name: Teste variaveis
+       env:
+        VAR1: this is
+        VAR2: teste
+       run: |
+        echo $VAR1 $VAR2 
+  
+  Executando_teste:
+      permissions: write-all
+      runs-on: ubuntu-latest
+      
+      strategy:
+       matrix:
+        node-version: [14.x]
+        
+      steps:
+         - uses: actions/checkout@v3
+         - name: Use node.js ${{ matrix.node-version }}
+           uses: actions/setup-node@v3
+           with:
+             node-version: ${{ matrix.node-version }}
+         - run: npm ci
+         - run: npm run build --if-present
+         - run: npm test
+         - name: Teste Report
+           uses: dorny/test-reporter@v1
+           if: success() || failure()  # roda de qualquer maneira
+           with:
+            name: JEST tests
+            path: reports/jest-*.xml
+            reporter: jest-junit
+            
+         - name: Enviando para o glitch
+           uses: kanadgupta/glitch-sync@main
+           with:
+             auth-token: '${{ secrets.authToken }}'
+             project-id: '${{ secrets.projectId }}'  
+
+
+  tests:
+    runs-on: ubuntu-latest
+    name: Run Selenium Tests on docker
+    steps:
+      - name: Start selenoid
+        uses: Xotabu4/selenoid-github-action@v2
+
+      - uses: actions/checkout@v3
+      - name: Use node.js 19.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19.x
+
+      - run: npm ci
+      - name: Run end to end tests
+        run: npm run e2e-test
+
+
+
+
+
+
+#  Mostrando_o_repositorio:
+#    name: Segundo Job
+#    runs-on: windows-latest
+#    steps:
+#     - run: echo "Repo-name ${{ github.repository}}"
+#     - run: echo "Repo-branch ${{ github.ref }}"
+#     - run: echo " O sistemas ${{ runner.os }} esta rodadndo"
+#     - run: time
+#     
+#  Mostrando_o_repositorio_mac_os:
+#    name: Terceiro Job
+#    runs-on: macos-latest
+    
+#    steps:
+#     - run: echo "Repo-name ${{ github.repository}}"
+#     - run: echo "Repo-branch ${{ github.ref }}"
+#     - run: echo " O sistemas ${{ runner.os }} esta rodadndo"
+#     - run: date
+#     - run: time
+   
